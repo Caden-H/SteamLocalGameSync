@@ -5,6 +5,7 @@ from tkinter import ttk, filedialog, messagebox, scrolledtext, simpledialog
 import subprocess
 import configparser
 import sys
+import webbrowser  # Imported webbrowser module to open URLs
 
 # Create a new configuration file if not present
 config_file = 'config.ini'
@@ -33,6 +34,12 @@ def select_directory(title, key):
     if directory:
         entry_widgets[key].delete(0, tk.END)
         entry_widgets[key].insert(0, directory)
+
+
+def open_api_key_page():
+    """Open the SteamGridDB API key page in the default web browser."""
+    api_key_url = 'https://www.steamgriddb.com/profile/preferences/api'
+    webbrowser.open(api_key_url)
 
 
 def save_config():
@@ -180,17 +187,17 @@ root.configure(background="#f0f0f0")
 
 # Add a label for "Configuration (config.ini):"
 header_label = ttk.Label(root, text="Configuration (config.ini):", font=("Arial", 12, "bold"), style="TLabel")
-header_label.grid(row=0, column=0, columnspan=3, padx=10, pady=(10, 5), sticky=tk.W)
+header_label.grid(row=0, column=0, columnspan=4, padx=10, pady=(10, 5), sticky=tk.W)
 
 # Create a frame for the configuration inputs
 config_frame = ttk.Frame(root, style="TFrame")
-config_frame.grid(row=1, column=0, columnspan=3, padx=10, pady=5, sticky=tk.EW)
+config_frame.grid(row=1, column=0, columnspan=4, padx=10, pady=5, sticky=tk.EW)
 config_frame.columnconfigure(1, weight=1)
 
 # Create input fields for each configuration option inside the config_frame
 fields = [
     ("Steam User Data Path", 'steam_user_data_path'),
-    ("Game Installation Paths", 'game_installation_paths'),
+    ("Game Installation Paths (comma-separated)", 'game_installation_paths'),
     ("Steam Directory Path", 'steamdir_path'),
     ("Desktop Path", 'desktop_path'),
     ("SteamGridDB API Key", 'api_key')
@@ -202,7 +209,11 @@ for i, (label_text, key) in enumerate(fields):
     entry.grid(row=i, column=1, padx=5, pady=5, sticky=tk.EW)
     entry.insert(0, config.get('Paths' if key != 'api_key' else 'SteamGridDB', key))
     entry_widgets[key] = entry
-    if key != 'game_installation_paths' and key != 'api_key':
+    if key == 'api_key':
+        # Add 'Get Key' button next to the API Key entry field
+        ttk.Button(config_frame, text="Get Key", width=18, command=open_api_key_page).grid(row=i, column=2, padx=5, pady=5, sticky=tk.W)
+    elif key != 'game_installation_paths':
+        # Allow browsing for directories (except for game paths)
         ttk.Button(config_frame, text="Browse", width=18, command=lambda k=key: select_directory(label_text, k)).grid(row=i, column=2, padx=5, pady=5, sticky=tk.W)
 
 # Adjust the width of "Add Game Directory" button to ensure full text is visible
@@ -210,11 +221,11 @@ add_game_button = ttk.Button(config_frame, text="Add Game Directory", width=18, 
 add_game_button.grid(row=1, column=2, padx=5, pady=5, sticky=tk.W)
 
 # Add a spacer line after config.ini input fields
-ttk.Separator(root, orient='horizontal').grid(row=2, column=0, columnspan=3, pady=10, sticky="ew")
+ttk.Separator(root, orient='horizontal').grid(row=2, column=0, columnspan=4, pady=10, sticky="ew")
 
 # Create a frame for the Install Requirements section
 install_frame = ttk.Frame(root, style='InstallFrame.TFrame')
-install_frame.grid(row=3, column=0, columnspan=3, padx=10, pady=5, sticky=tk.EW)
+install_frame.grid(row=3, column=0, columnspan=4, padx=10, pady=5, sticky=tk.EW)
 
 # Add the "Install Requirements" button inside install_frame
 ttk.Button(install_frame, text="Install Requirements", command=install_requirements, style="InstallFrame.TButton").grid(row=0, column=0, pady=10, padx=5, sticky=tk.E)
@@ -222,18 +233,18 @@ install_status = ttk.Label(install_frame, text="", font=("Arial", 12), style="In
 install_status.grid(row=0, column=1, padx=5, sticky=tk.W)
 
 # Add a spacer line after the Install Requirements section
-ttk.Separator(root, orient='horizontal').grid(row=4, column=0, columnspan=3, pady=10, sticky="ew")
+ttk.Separator(root, orient='horizontal').grid(row=4, column=0, columnspan=4, pady=10, sticky="ew")
 
 # Add explanation text about automatic vs selective mode
-ttk.Label(root, text="Modes:", font=("Arial", 12, "bold"), style="TLabel").grid(row=5, column=0, columnspan=3, padx=10, sticky=tk.W)
+ttk.Label(root, text="Modes:", font=("Arial", 12, "bold"), style="TLabel").grid(row=5, column=0, columnspan=4, padx=10, sticky=tk.W)
 
 ttk.Label(root, text="Automatic Mode: Runs the script with default settings without prompting for .exe selection.\n"
                      "Selective Mode: Allows you to manually choose the executable if multiple are found.",
-          wraplength=600, style="TLabel").grid(row=6, column=0, columnspan=3, padx=10, pady=5, sticky=tk.W)
+          wraplength=600, style="TLabel").grid(row=6, column=0, columnspan=4, padx=10, pady=5, sticky=tk.W)
 
 # Add buttons for running the script, centered
 button_frame = ttk.Frame(root, style="TFrame")
-button_frame.grid(row=7, column=0, columnspan=3, pady=10)
+button_frame.grid(row=7, column=0, columnspan=4, pady=10)
 button_frame.columnconfigure(0, weight=1)
 button_frame.columnconfigure(1, weight=1)
 
@@ -242,7 +253,7 @@ ttk.Button(button_frame, text="Run in Selective Mode", command=lambda: run_scrip
 
 # Add a scrollable text box to display logs
 log_frame = ttk.Frame(root, style="LogFrame.TFrame")
-log_frame.grid(row=8, column=0, columnspan=3, padx=10, pady=5, sticky=tk.EW)
+log_frame.grid(row=8, column=0, columnspan=4, padx=10, pady=5, sticky=tk.EW)
 log_text = scrolledtext.ScrolledText(log_frame, height=10, wrap=tk.WORD, state="normal", font=("Arial", 10), background="#ffffff")
 log_text.grid(row=0, column=0, sticky=tk.EW)
 log_frame.columnconfigure(0, weight=1)
