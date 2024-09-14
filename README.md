@@ -2,12 +2,16 @@
 
 This Python script automatically adds games from multiple directories to your Steam library as non-Steam games, ensuring the correct executable is chosen and adding images from SteamGridDB.
 
+[![Screenshot of GUI](https://i.imgur.com/ea1JQ0R.png)](
+
 ## Features
 - **Automatic Game Detection**: Scans multiple directories for games.
 - **Executable Prioritization**: Chooses the right executable based on name match, size, and desktop shortcuts.
 - **Image Fetching**: Fetches images from SteamGridDB for grid view, hero images, and logos.
 - **Configurable**: Paths and API key are configurable in `config.ini`.
 - **Selective Mode**: Lets you manually choose the executable if needed.
+- **Cache File**: Saves your executable choice for future runs.
+- **GUI Mode**: Provides a GUI to modify config.ini and select the run mode.
 
 ## How the Executable is Chosen
 1. **Desktop Shortcut Priority**: If a `.lnk` file exists on your desktop for the game, that executable is prioritized.
@@ -23,6 +27,7 @@ This Python script automatically adds games from multiple directories to your St
 1. **Clone or Download the Script**.
 2. **Install Dependencies**:
    `pip install -r requirements.txt`
+   or `python3 -m pip install -r requirements.txt`
 3. **Configure `config.ini`**:
    - Update the paths to your Steam and game directories.
    - Add your SteamGridDB API key.

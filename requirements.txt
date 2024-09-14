@@ -1,3 +1,4 @@
 vdf
 requests
 pywin32
+ttkthemes
