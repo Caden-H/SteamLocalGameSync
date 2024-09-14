@@ -28,7 +28,9 @@ This Python script automatically adds games from multiple directories to your St
    - Add your SteamGridDB API key.
 
 ### Running the Script
-You can double click either `.bat` file or run the script if everything is set up correctly.
+You can double click any `.bat` file or run the script manually if everything is set up correctly.
+- **GUI Mode**: Provides a GUI to modify config.ini and select the run mode.
+   `python "GameSync_Main_GUI.py"` or double click `run_GUI_mode.bat`.
 - **Default Mode**: Automatically detects games and executables.
    `python "GameSync_Main.py"`
 - **Selective Mode**: Prompts you to choose executables if multiple are found.
