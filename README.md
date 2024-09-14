@@ -1,38 +1,60 @@
-# GameSync
-Automatically add Non-Steam Games to Steam and adds images from steambd
+# Steam Non-Steam Game Shortcut Automator
 
-## Introduction
-I wanted to automate the process of adding non-steam games to my steam library, and since I solely use Big Picture Mode and am too lazy to add it manually everytime, I made this with chatGPT.
-
+This Python script automatically adds games from multiple directories to your Steam library as non-Steam games, ensuring the correct executable is chosen and adding images from SteamGridDB.
 
 ## Features
-- Reads games from a specified installation directory.
-- Generates unique AppIDs for non-Steam games.
-- Fetches grid, hero, and logo images from SteamGridDB.
-- Adds new games to Steam shortcuts.
-- Removes shortcuts for games that are no longer installed.
-- finds largest .exe in game folder and adds that as the game executable. You will need to check if the correct .exe has been chosen as I'm not sure how else to do this which isn't complex.
-- logging
+- **Automatic Game Detection**: Scans multiple directories for games.
+- **Executable Prioritization**: Chooses the right executable based on name match, size, and desktop shortcuts.
+- **Image Fetching**: Fetches images from SteamGridDB for grid view, hero images, and logos.
+- **Configurable**: Paths and API key are configurable in `config.ini`.
+- **Selective Mode**: Lets you manually choose the executable if needed.
 
+## How the Executable is Chosen
+1. **Desktop Shortcut Priority**: If a `.lnk` file exists on your desktop for the game, that executable is prioritized.
+2. **Name and Size Matching**: Executables are prioritized by size, and those containing the game name are given higher priority.
+3. **Selective Mode**: If multiple valid executables are found, run in selective mode (`-s`) to choose manually.
 
-## Requirements
-- Python 3.x
-- 'requests' library
-- 'vdf' library
+## Setup
+### Prerequisites
+- **Python 3** and **pip** installed.
+- **SteamGridDB API Key**: Get it from [SteamGridDB](https://www.steamgriddb.com/profile/preferences/api).
 
-- steam_user_data_path: Path to the Steam userdata config folder.
-- game_installation_path: Path to the directory where your games are installed.
-- steamgriddb_api_key: Your SteamGridDB API key.
-- steamdir_path: Path to your Steam directory.
+### Installation
+1. **Clone or Download the Script**.
+2. **Install Dependencies**:
+   `pip install -r requirements.txt`
+3. **Configure `config.ini`**:
+   - Update the paths to your Steam and game directories.
+   - Add your SteamGridDB API key.
 
+### Running the Script
+You can double click either `.bat` file or run the script if everything is set up correctly.
+- **Default Mode**: Automatically detects games and executables.
+   `python steam_auto_shortcuts.py`
+- **Selective Mode**: Prompts you to choose executables if multiple are found.
+   `python steam_auto_shortcuts.py -s`
 
-## Usage
-- Change the directories in the script.
-- Install required libraries.
-```py
-pip install requests vdf
-```
-- Add game folder
-- run script GameSync.py (.pyw for windowless)
-- check if correct game executable has been chosen.
+## Configuration (`config.ini`)
+- **Paths**: 
+  - `steam_user_data_path`: Path to your Steam `userdata` directory.
+  - `game_installation_paths`: Comma-separated list of game installation directories.
+  - `desktop_path`: Path to your Desktop.
+- **SteamGridDB API**: 
+  - `api_key`: Your SteamGridDB API key.
 
+### Automating with Task Scheduler
+1. **Create a `.bat` file** to run the script:
+   `@echo off`
+   `python "C:\path\to\your\steam_auto_shortcuts.py"`
+2. **Use Windows Task Scheduler** to run this daily.
+
+### Cache File (`cache.txt`)
+- Saves the user’s executable choice for future runs.
+- Format: `game_name=exe_path`.
+
+## Troubleshooting
+- **Python Not Found**: Ensure Python is installed and added to your PATH.
+- **Missing API Key**: Get your SteamGridDB API key and add it to `config.ini`.
+
+## License
+This project is licensed under the MIT License.

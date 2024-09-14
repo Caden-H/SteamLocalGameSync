@@ -1,0 +1,1 @@
+python "GameSync_Main.py" -s
