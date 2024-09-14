@@ -2,7 +2,7 @@
 
 This Python script automatically adds games from multiple directories to your Steam library as non-Steam games, ensuring the correct executable is chosen and adding images from SteamGridDB.
 
-[![Screenshot of GUI](https://i.imgur.com/ea1JQ0R.png)](
+![Screenshot of GUI](https://i.imgur.com/ea1JQ0R.png)
 
 ## Features
 - **Automatic Game Detection**: Scans multiple directories for games.
