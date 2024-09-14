@@ -30,9 +30,9 @@ This Python script automatically adds games from multiple directories to your St
 ### Running the Script
 You can double click either `.bat` file or run the script if everything is set up correctly.
 - **Default Mode**: Automatically detects games and executables.
-   `python steam_auto_shortcuts.py`
+   `python "GameSync_Main.py"`
 - **Selective Mode**: Prompts you to choose executables if multiple are found.
-   `python steam_auto_shortcuts.py -s`
+   `python "GameSync_Main.py" -s`
 
 ## Configuration (`config.ini`)
 - **Paths**: 
@@ -45,7 +45,7 @@ You can double click either `.bat` file or run the script if everything is set u
 ### Automating with Task Scheduler
 1. **Create a `.bat` file** to run the script:
    `@echo off`
-   `python "C:\path\to\your\steam_auto_shortcuts.py"`
+   `python "GameSync_Main.py"`
 2. **Use Windows Task Scheduler** to run this daily.
 
 ### Cache File (`cache.txt`)
